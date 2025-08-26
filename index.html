@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightOS - Gestão de Projetos e OKRs</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Ícone do Site (Favicon) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Esconde todas as seções de página por padrão */
+        .page-section {
+            display: none;
+        }
+        /* Mostra a página ativa */
+        .page-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- ========== CABEÇALHO ========== -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" onclick="showPage('home')" class="flex items-center space-x-2">
+                <span class="text-2xl">🎯</span>
+                <span class="text-xl font-bold text-gray-900">InsightOS</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" onclick="showPage('home')" class="text-gray-600 hover:text-indigo-600 transition">Home</a>
+                <a href="#" onclick="showPage('pricing')" class="text-gray-600 hover:text-indigo-600 transition">Preços</a>
+                <a href="#" onclick="showPage('signup')" class="text-gray-600 hover:text-indigo-600 transition">Login</a>
+            </div>
+            <a href="#" onclick="InsightOS.track('cta_click', { location: 'header' }); showPage('signup');" class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition shadow-sm">
+                Comece Grátis
+            </a>
+        </nav>
+    </header>
+
+    <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+    <main>
+        <!-- ========== PÁGINA HOME ========== -->
+        <section id="home" class="page-section active">
+            <!-- Hero Section -->
+            <div class="bg-white">
+                <div class="container mx-auto px-6 py-24 text-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                        Conecte seus <span class="text-indigo-600">projetos</span> aos seus <span class="text-indigo-600">objetivos</span>.
+                    </h1>
+                    <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                        InsightOS é a plataforma de gestão que alinha o trabalho da sua equipe com os OKRs da empresa, garantindo que cada tarefa contribua para o que realmente importa.
+                    </p>
+                    <div class="mt-8 flex justify-center gap-4">
+                        <a href="#" onclick="InsightOS.track('cta_click', { location: 'hero' }); showPage('signup');" class="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition shadow-lg">
+                            Comece seu teste grátis de 14 dias
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Features -->
+            <div class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900">Tudo que sua equipe precisa para focar no resultado</h2>
+                        <p class="mt-2 text-gray-600">De OKRs a quadros Kanban, tudo em um só lugar.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Planejamento de OKRs</h3>
+                            <p class="text-gray-600">Defina e acompanhe objetivos claros para manter todos alinhados e motivados.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Quadros de Projetos</h3>
+                            <p class="text-gray-600">Organize tarefas com quadros Kanban flexíveis e visuais. Veja o progresso em tempo real.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold mb-2">Dashboards de Performance</h3>
+                            <p class="text-gray-600">Visualize como o trabalho da sua equipe está impactando diretamente os resultados da empresa.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PÁGINA DE PREÇOS ========== -->
+        <section id="pricing" class="page-section">
+            <div class="container mx-auto px-6 py-20">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl font-extrabold text-gray-900">Escolha o plano certo para sua equipe</h1>
+                    <p class="mt-4 text-lg text-gray-600">Comece de graça e evolua conforme sua necessidade.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <!-- Plano Trial -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-indigo-600 w-full max-w-md">
+                        <h2 class="text-2xl font-bold text-gray-900">Trial Gratuito</h2>
+                        <p class="text-gray-600 mt-2">Teste todas as funcionalidades por 14 dias.</p>
+                        <p class="text-5xl font-extrabold text-gray-900 mt-6">R$0</p>
+                        <ul class="mt-6 space-y-3 text-gray-600">
+                            <li>✓ Acesso a todas as features Pro</li>
+                            <li>✓ Até 10 usuários</li>
+                            <li>✓ 3 integrações</li>
+                            <li>✓ Suporte via comunidade</li>
+                        </ul>
+                        <a href="#" onclick="InsightOS.track('cta_click', { location: 'pricing_trial' }); showPage('signup');" class="mt-8 block w-full text-center bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                            Começar Teste Grátis
+                        </a>
+                    </div>
+                    <!-- Plano Pro -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg border w-full max-w-md">
+                        <h2 class="text-2xl font-bold text-gray-900">Plano Pro</h2>
+                        <p class="text-gray-600 mt-2">Para equipes que buscam alta performance.</p>
+                        <p class="text-5xl font-extrabold text-gray-900 mt-6">R$49<span class="text-xl font-medium text-gray-500">/usuário/mês</span></p>
+                        <ul class="mt-6 space-y-3 text-gray-600">
+                            <li>✓ Tudo do Trial, e mais:</li>
+                            <li>✓ Usuários ilimitados</li>
+                            <li>✓ Integrações ilimitadas</li>
+                            <li>✓ Suporte prioritário via e-mail</li>
+                        </ul>
+                        <a href="#" onclick="InsightOS.track('cta_click', { location: 'pricing_pro' }); showPage('signup');" class="mt-8 block w-full text-center bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition">
+                            Assinar Plano Pro
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PÁGINA DE CADASTRO ========== -->
+        <section id="signup" class="page-section">
+            <div class="container mx-auto px-6 py-20 flex justify-center">
+                <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+                    <h1 class="text-3xl font-bold text-center text-gray-900">Crie sua conta</h1>
+                    <p class="text-center text-gray-600 mt-2">Comece a transformar seus projetos em resultados.</p>
+                    
+                    <!-- Formulário Simulado -->
+                    <div class="mt-8 space-y-6">
+                        <div>
+                            <label for="name" class="text-sm font-medium text-gray-700">Nome completo</label>
+                            <input type="text" id="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="email" class="text-sm font-medium text-gray-700">E-mail</label>
+                            <input type="email" id="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="password" class="text-sm font-medium text-gray-700">Senha</label>
+                            <input type="password" id="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        
+                        <!-- O clique neste botão é o evento que precisamos rastrear -->
+                        <button onclick="handleSignup()" class="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold text-lg hover:bg-indigo-700 transition">
+                            Criar Minha Conta Grátis
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PÁGINA DE AGRADECIMENTO ========== -->
+        <section id="thankyou" class="page-section">
+            <div class="container mx-auto px-6 py-24 text-center">
+                <h1 class="text-5xl font-extrabold text-gray-900">🎉<br>Sucesso!</h1>
+                <p class="mt-6 text-lg text-gray-600 max-w-xl mx-auto">
+                    Sua conta foi criada. Enviamos um link de confirmação para o seu e-mail. Verifique sua caixa de entrada para começar a usar o InsightOS.
+                </p>
+                <div class="mt-8">
+                     <a href="#" onclick="showPage('home')" class="text-indigo-600 font-semibold hover:underline">
+                        Voltar para a Home
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- ========== RODAPÉ ========== -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            &copy; 2025 InsightOS. Todos os direitos reservados.
+        </div>
+    </footer>
+
+
+    <!-- ========== LÓGICA DE NAVEGAÇÃO E TRACKING ========== -->
+    <script>
+        // Lógica para simular a navegação entre páginas
+        const pages = document.querySelectorAll('.page-section');
+        
+        function showPage(pageId) {
+            // Esconde todas as páginas
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            // Mostra a página solicitada
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+            // Rola para o topo da página
+            window.scrollTo(0, 0);
+
+            // Dispara um evento de page_view manual para cada mudança de página "virtual"
+            if (window.InsightOS) {
+                // Adicionamos um pequeno delay para garantir que o título da página seja atualizado
+                setTimeout(() => {
+                    InsightOS.track('page_view');
+                }, 50);
+            }
+        }
+
+        // Simula o envio do formulário e redireciona para a página de agradecimento
+        function handleSignup() {
+            // Em um projeto real, aqui você validaria o formulário
+            // e faria uma requisição para o backend.
+            
+            // Dispara o evento de conversão principal antes de mudar de página
+            if (window.InsightOS) {
+                InsightOS.track('trial_signup', { plan: 'free_trial_14_days' });
+            }
+
+            // Para nosso projeto, apenas redirecionamos.
+            // A visualização da página 'thankyou' confirmará a conversão.
+            showPage('thankyou');
+        }
+
+    </script>
+
+    <!-- 
+    ==================================================================
+    // ÁREA DE TRACKING //
+    // Carregamos nosso script customizado. A ordem é importante!
+    // Ele deve vir DEPOIS da lógica do site para que a função showPage
+    // possa chamar o InsightOS.track().
+    ==================================================================
+    -->
+    <script src="./tracker/tracker.js"></script> 
+
+</body>
+</html>
