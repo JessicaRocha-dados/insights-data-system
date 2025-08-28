@@ -2,28 +2,44 @@
  * ==================================================================================
  * InsightOS Tracker v1.0
  * ----------------------------------------------------------------------------------
- * Este script é responsável por coletar dados de atribuição de marketing e eventos
- * de comportamento do usuário no front-end e enviá-los para a API de coleta.
+ * Autor: Jessica Rocha
+ * Data: 27 de Agosto de 2025
+ *
+ * Objetivo:
+ * Este script é o cérebro da nossa recolha de dados no front-end. As suas
+ * responsabilidades são:
+ * 1. Identificar cada visitante de forma anónima e persistente.
+ * 2. Capturar os parâmetros de marketing (UTMs, etc.) da URL.
+ * 3. Guardar os dados de primeiro e último toque para análise de atribuição.
+ * 4. Fornecer uma função global (`InsightOS.track`) para enviar eventos
+ * customizados para a nossa API de recolha de dados.
  * ==================================================================================
  */
 
-// Usamos uma função auto-executável para não poluir o escopo global do site.
+// Utilizo uma "Immediately Invoked Function Expression" (IIFE).
+// Isto cria um escopo privado para o meu código, evitando que as minhas variáveis
+// e funções entrem em conflito com outras bibliotecas que o site possa usar.
 (function() {
     // --- 1. CONFIGURAÇÃO ---
-    // O endereço da nossa API FastAPI. Por enquanto, aponta para um ambiente local.
-    // Quando fizermos o deploy, mudaremos para a URL de produção.
+
+    // Defino o endereço do meu endpoint da API.
+    // Durante o desenvolvimento, aponto para o meu servidor local.
+    // Quando a API estiver online no Render, eu atualizarei este URL.
     const API_ENDPOINT = 'http://127.0.0.1:8000/event';
 
-    // --- 2. GERENCIAMENTO DE IDENTIDADE ---
+    // --- 2. GESTÃO DA IDENTIDADE DO VISITANTE ---
+
     /**
-     * Obtém um ID de visitante anônimo do localStorage.
-     * Se não existir, cria um novo ID único (UUID v4).
-     * @returns {string} O ID do visitante.
+     * Esta função é responsável por identificar o visitante.
+     * Ela verifica se já existe um ID guardado no `localStorage` do navegador.
+     * Se não existir, ela cria um novo ID único (UUID v4) e guarda-o.
+     * Isto garante que o mesmo visitante seja reconhecido nas suas diferentes visitas ao site.
+     * @returns {string} O ID único do visitante.
      */
     function getOrSetVisitorId() {
         let visitorId = localStorage.getItem('insightos_visitor_id');
         if (!visitorId) {
-            // Gera um UUID v4 simples
+            // Gero um UUID v4 simples usando uma substituição de caracteres aleatórios.
             visitorId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
@@ -33,14 +49,16 @@
         return visitorId;
     }
 
-    // --- 3. GERENCIAMENTO DE ATRIBUIÇÃO DE MARKETING ---
+    // --- 3. GESTÃO DA ATRIBUIÇÃO DE MARKETING ---
+
     /**
-     * Analisa a URL atual em busca de parâmetros de marketing (UTMs, gclid, etc.).
-     * @returns {object} Um objeto com os parâmetros encontrados.
+     * Esta função analisa a URL da página atual e extrai todos os parâmetros de marketing conhecidos.
+     * @returns {object} Um objeto contendo os parâmetros encontrados (ex: { utm_source: 'google', utm_campaign: 'promo' }).
      */
     function getMarketingParams() {
         const params = new URLSearchParams(window.location.search);
         const marketingData = {};
+        // Defino uma lista de todas as chaves de parâmetros de marketing que me interessam.
         const paramKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
         
         paramKeys.forEach(key => {
@@ -52,16 +70,19 @@
     }
 
     /**
-     * Salva os dados de atribuição. Guarda o primeiro e o último toque.
+     * Esta função guarda os dados de atribuição no `localStorage`.
+     * Ela implementa a lógica de primeiro e último toque (first and last touch).
      */
     function storeAttributionData() {
         const marketingParams = getMarketingParams();
-        // Se houver algum parâmetro de marketing na URL atual...
+        
+        // Só executo a lógica se encontrar algum parâmetro de marketing na URL.
         if (Object.keys(marketingParams).length > 0) {
-            // Salva como o último toque (sobrescreve o anterior)
+            // O "último toque" é sempre a campanha mais recente, então eu sobrescrevo-o a cada nova visita com UTMs.
             localStorage.setItem('insightos_last_touch', JSON.stringify(marketingParams));
 
-            // Salva como o primeiro toque (apenas se ainda não existir)
+            // O "primeiro toque" é a primeira campanha que trouxe o utilizador.
+            // Por isso, só o guardo se ele ainda não existir no localStorage.
             if (!localStorage.getItem('insightos_first_touch')) {
                 localStorage.setItem('insightos_first_touch', JSON.stringify(marketingParams));
             }
@@ -69,21 +90,24 @@
     }
     
     // --- 4. NÚCLEO DE ENVIO DE EVENTOS ---
+
     /**
-     * A função principal que envia um evento para a nossa API.
-     * @param {string} eventName - O nome do evento (ex: 'page_view', 'signup').
+     * Esta é a função principal do tracker. Ela monta o pacote de dados (payload)
+     * e envia-o para a minha API de recolha.
+     * @param {string} eventName - O nome do evento (ex: 'page_view', 'cta_click').
      * @param {object} eventProperties - Um objeto com dados adicionais sobre o evento.
      */
     async function trackEvent(eventName, eventProperties = {}) {
         const visitorId = getOrSetVisitorId();
+        // Recupero os dados de primeiro e último toque guardados, tratando o caso de não existirem (|| {}).
         const firstTouch = JSON.parse(localStorage.getItem('insightos_first_touch')) || {};
         const lastTouch = JSON.parse(localStorage.getItem('insightos_last_touch')) || {};
 
-        // Monta o payload completo com todas as informações que temos
+        // Monto o objeto 'payload' com a estrutura exata que a minha API FastAPI espera receber.
         const payload = {
             event_type: eventName,
             visitor_id: visitorId,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString(), // Uso o formato ISO para um padrão universal de data/hora.
             url: window.location.href,
             page_title: document.title,
             event_properties: eventProperties,
@@ -93,17 +117,19 @@
             }
         };
 
-        console.log('Enviando evento:', payload);
+        // Imprimo o payload na consola para fins de depuração durante o desenvolvimento.
+        console.log('A enviar evento:', payload);
 
         try {
-            // Usa a API Fetch para enviar os dados para o nosso backend
+            // Uso a API Fetch do navegador para enviar os dados para o meu backend.
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
-                // keepalive: true permite que a requisição continue mesmo se o usuário sair da página
+                // 'keepalive: true' é uma otimização importante. Garante que o pedido
+                // seja concluído mesmo que o utilizador saia da página imediatamente após o evento.
                 keepalive: true 
             });
 
@@ -115,26 +141,29 @@
         }
     }
 
-    // --- 5. INICIALIZAÇÃO E TRACKING AUTOMÁTICO ---
+    // --- 5. INICIALIZAÇÃO E EXPOSIÇÃO GLOBAL ---
+
     /**
-     * Função que inicializa o tracker.
+     * Função que arranca o tracker.
      */
     function initializeTracker() {
         console.log('InsightOS Tracker Inicializado.');
-        // 1. Processa e armazena os dados de atribuição da URL atual
+        // 1. Processo e armazeno os dados de atribuição da URL atual assim que o tracker carrega.
         storeAttributionData();
         
-        // 2. Dispara automaticamente um evento 'page_view' em cada carregamento de página
-        // Este foi movido para a função showPage() no index.html para lidar com a navegação SPA
+        // 2. O evento 'page_view' inicial foi movido para a função showPage() no index.html.
+        //    Isto é necessário para que ele seja disparado não apenas no primeiro carregamento,
+        //    mas a cada "mudança de página" na nossa Single-Page Application.
     }
 
-    // Expõe a função `trackEvent` globalmente para que possamos chamá-la de fora
-    // Ex: <button onclick="InsightOS.track('cta_click')">Click Me</button>
+    // Exponho a minha função `trackEvent` para o mundo exterior, dentro de um objeto global 'InsightOS'.
+    // Isto permite-me chamar o tracking de forma limpa a partir do meu HTML, como por exemplo:
+    // <button onclick="InsightOS.track('cta_click')">Click Me</button>
     window.InsightOS = {
         track: trackEvent
     };
 
-    // Inicializa o tracker assim que o script for carregado
+    // Finalmente, chamo a função de inicialização para que o tracker comece a funcionar.
     initializeTracker();
 
 })();
