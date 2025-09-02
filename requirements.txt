@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-dotenv
+supabase
+gunicorn
+psycopg2-binary
+scikit-learn
+joblib
+
