@@ -17,14 +17,20 @@
 
 # Começo por importar todas as ferramentas necessárias.
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field # Pydantic é crucial para validar os dados que chegam.
-from typing import Optional, Dict, Any # Para definir os tipos de dados dos nossos modelos.
+# Pydantic é crucial para validar os dados que chegam.
+from pydantic import BaseModel, Field
+# Para definir os tipos de dados dos nossos modelos.
+from typing import Optional, Dict, Any
 from datetime import datetime
-from fastapi.middleware.cors import CORSMiddleware # Para permitir que o nosso site (front-end) comunique com esta API.
-from sqlalchemy import create_engine, text # SQLAlchemy é a biblioteca que uso para comunicar com o banco de dados PostgreSQL.
-import json # Para converter objetos Python em formato JSON antes de os guardar no banco.
-import os # Para ler as variáveis de ambiente de forma segura.
-from dotenv import load_dotenv # Para carregar as variáveis de ambiente de um ficheiro .env localmente.
+# Para permitir que o nosso site (front-end) comunique com esta API.
+from fastapi.middleware.cors import CORSMiddleware
+# SQLAlchemy é a biblioteca que uso para comunicar com o banco de dados PostgreSQL.
+from sqlalchemy import create_engine, text
+# Para converter objetos Python em formato JSON antes de os guardar no banco.
+import json
+import os  # Para ler as variáveis de ambiente de forma segura.
+# Para carregar as variáveis de ambiente de um ficheiro .env localmente.
+from dotenv import load_dotenv
 
 # Carrega as variáveis de ambiente (como a DATABASE_URL) do ficheiro .env.
 # Isto é uma boa prática para não expor senhas diretamente no código.
@@ -34,7 +40,7 @@ load_dotenv()
 
 # Obtenho a string de conexão do banco de dados a partir das variáveis de ambiente.
 # No Render, esta variável é configurada diretamente no painel do serviço.
-DATABASE_URL = "postgresql://postgres.oteqjiqifwhmqdjblmyl:oGIrVVuxJ826fXDP@aws-1-sa-east-1.pooler.supabase.com:6543/postgres"
+DATABASE_URL = "postgresql://postgres.oteqjiqifwhmqdjblmyl:5973jDt7643@aws-1-sa-east-1.pooler.supabase.com:6543/postgres"
 
 # Verifico se a DATABASE_URL foi realmente carregada. Se não, o programa para com um erro claro.
 if not DATABASE_URL:
@@ -65,10 +71,12 @@ class Attribution(BaseModel):
     gclid: Optional[str] = None
     fbclid: Optional[str] = None
 
+
 class AttributionData(BaseModel):
     """ Agrupa os dados de atribuição de primeiro e último toque. """
     first_touch: Optional[Attribution] = None
     last_touch: Optional[Attribution] = None
+
 
 class EventPayload(BaseModel):
     """ Este é o modelo principal. Define a estrutura de cada evento que a API recebe. """
@@ -77,7 +85,8 @@ class EventPayload(BaseModel):
     timestamp: datetime
     url: str
     page_title: str
-    event_properties: Dict[str, Any] = Field(default_factory=dict) # Um dicionário flexível para dados extras.
+    # Um dicionário flexível para dados extras.
+    event_properties: Dict[str, Any] = Field(default_factory=dict)
     attribution: AttributionData
 
 
@@ -96,14 +105,15 @@ app = FastAPI(
 origins = [
     "http://localhost", "http://localhost:5500",
     "http://127.0.0.1", "http://127.0.0.1:5500",
-    "null" # Permite testes locais a partir de ficheiros HTML abertos diretamente.
+    # Permite testes locais a partir de ficheiros HTML abertos diretamente.
+    "null"
 ]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"], # Permite todos os métodos (GET, POST, etc.).
-    allow_headers=["*"], # Permite todos os cabeçalhos.
+    allow_methods=["*"],  # Permite todos os métodos (GET, POST, etc.).
+    allow_headers=["*"],  # Permite todos os cabeçalhos.
 )
 
 
@@ -124,7 +134,8 @@ def track_event(payload: EventPayload):
     """
     # Verifico se a conexão com o banco de dados foi estabelecida no arranque.
     if engine is None:
-        raise HTTPException(status_code=500, detail="A conexão com o banco de dados não foi estabelecida.")
+        raise HTTPException(
+            status_code=500, detail="A conexão com o banco de dados não foi estabelecida.")
 
     # Converte o objeto Pydantic recebido num dicionário Python normal para ser mais fácil de manipular.
     event_data = payload.model_dump()
@@ -155,10 +166,12 @@ def track_event(payload: EventPayload):
         # é aberta e fechada corretamente, mesmo que ocorra um erro.
         with engine.connect() as connection:
             connection.execute(query, params)
-            connection.commit() # Confirmo a transação para que os dados sejam salvos permanentemente.
-        
+            # Confirmo a transação para que os dados sejam salvos permanentemente.
+            connection.commit()
+
         # Se tudo correu bem, imprimo uma mensagem de sucesso no log do servidor.
-        print(f"Evento '{payload.event_type}' salvo no banco de dados para o visitor_id: {payload.visitor_id}")
+        print(
+            f"Evento '{payload.event_type}' salvo no banco de dados para o visitor_id: {payload.visitor_id}")
         # E envio uma resposta de sucesso de volta para o front-end.
         return {"status": "success", "message": "Evento salvo com sucesso!"}
 
@@ -166,4 +179,5 @@ def track_event(payload: EventPayload):
         # Se ocorrer qualquer erro durante a inserção, capturo-o.
         print(f"Erro ao salvar evento no banco de dados: {e}")
         # E levanto uma exceção HTTP, que envia uma mensagem de erro clara para o front-end.
-        raise HTTPException(status_code=500, detail="Erro ao salvar evento no banco de dados.")
+        raise HTTPException(
+            status_code=500, detail="Erro ao salvar evento no banco de dados.")

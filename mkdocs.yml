@@ -1,0 +1,20 @@
+site_name: Documentação do Projeto InsightOS
+
+theme:
+  name: material
+  language: pt
+  palette:
+    primary: 'blue'
+    accent: 'light blue'
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+
+nav:
+  - 'Visão Geral': 'index.md'
+  - 'Arquitetura': '01_arquitetura.md'
+  - 'Geração de Dados': '02_dados_sinteticos.md'
+  - 'Modelo: Lead Scoring': '03_lead_scoring.md'
+  - 'Modelo: Análise de LTV': '04_analise_ltv.md'
+  - 'Automação (Produção)': '05_automacao.md'
