@@ -596,7 +596,7 @@
 <h3 id="21-pipeline-de-dados">2.1 Pipeline de Dados</h3>
 <p>O sistema é um pipeline de dados de ponta a ponta que transforma cliques anónimos em inteligência de negócio. O fluxo é o seguinte:</p>
 <ol>
-<li><strong>Coleta (Navegador):</strong> O <code>tracker.js</code> no site captura eventos (ex: <code>page_view</code>) e dados de atribuição (UTMs)[cite: 1195, 1079].Ele gera um <code>visitor_id</code> único e armazena dados de <em>first/last touch</em> no <code>localStorage</code>.</li>
+<li><strong>Coleta (Navegador):</strong> O <code>tracker.js</code> no site captura eventos (ex: <code>page_view</code>) e dados de atribuição (UTMs).Ele gera um <code>visitor_id</code> único e armazena dados de <em>first/last touch</em> no <code>localStorage</code>.</li>
 <li><strong>Ingestão (API FastAPI):</strong> Os dados são enviados via <code>POST</code> para a API (main.py) hospedada no Render.</li>
 <li><strong>Validação:</strong> A API usa modelos Pydantic para validar rigorosamente se o <em>payload</em> do evento corresponde ao schema definido, rejeitando dados malformados.</li>
 <li><strong>Armazenamento (PostgreSQL):</strong> Dados validados são inseridos de forma segura no banco de dados PostgreSQL (Supabase).</li>
@@ -648,9 +648,8 @@
 </table>
 <h3 id="23-diagrama-do-sistema">2.3 Diagrama do Sistema</h3>
 <p>[cite_start]O diagrama a seguir ilustra o fluxo de dados completo do sistema InsightOS.</p>
-<p><strong>Figura 1 - Diagrama de Fluxo de Dados do Sistema InsightOS</strong>
-<img alt="Diagrama de Fluxo de Dados do Sistema InsightOS" src="../img/arquitetura_fluxo.png" /></p>
-<p>*Fonte: Documentação de Planejamento.docx </p>
+<p><strong>Figura 1 - Diagrama de Fluxo de Dados do Sistema InsightOS</strong></p>
+<p><img alt="Diagrama de Fluxo de Dados do Sistema InsightOS" src="../img/arquitetura_fluxo.png" /></p>
 
 
 

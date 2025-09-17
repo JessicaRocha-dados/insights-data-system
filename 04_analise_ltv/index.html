@@ -654,12 +654,12 @@
 3.  <strong>Cálculo do LTV:</strong> O LTV é calculado combinando as saídas dos dois modelos (Frequência Esperada x Valor Monetário Esperado).</p>
 <h3 id="52-descoberta-critica-violacao-de-premissa">5.2 Descoberta Crítica (Violação de Premissa)</h3>
 <p>Antes de treinar o modelo Gamma-Gamma, uma verificação de premissas é necessária. O modelo assume que <strong>não há correlação</strong> entre a frequência de compra de um cliente e seu valor monetário médio.
-* <strong>Nossa Análise:</strong> Encontramos uma correlação de <strong>0.3882</strong> (ou 0.39), como será provado na imagem de log abaixo[cite: 1177].
-* <strong>Tradução de Negócio:</strong> Isso significa que "clientes mais leais são também os que gastam mais" — um insight valioso, mas que viola a premissa do modelo [cite: 1184-1185].
-* <strong>Decisão Estratégica:</strong> A decisão pragmática foi prosseguir. Em vez de tratar o LTV como uma previsão contábil exata, nós o interpretamos como um <strong>índice comparativo robusto</strong> para ranquear o valor relativo das campanhas[cite: 1192, 1197].</p>
+* <strong>Nossa Análise:</strong> Encontramos uma correlação de <strong>0.3882</strong> (ou 0.39), como será provado na imagem de log abaixo.
+* <strong>Tradução de Negócio:</strong> Isso significa que "clientes mais leais são também os que gastam mais" — um insight valioso, mas que viola a premissa do modelo.
+* <strong>Decisão Estratégica:</strong> A decisão pragmática foi prosseguir. Em vez de tratar o LTV como uma previsão contábil exata, nós o interpretamos como um <strong>índice comparativo robusto</strong> para ranquear o valor relativo das campanhas.</p>
 <h3 id="53-sumarios-de-performance-dos-modelos">5.3 Sumários de Performance dos Modelos</h3>
 <p><strong>1. Sumário do Modelo BG/NBD (Frequência e Churn)</strong>
-Este é o log do primeiro modelo, que diagnosticou o comportamento "médio" de toda a base de clientes (quantas vezes compram e quando sofrem churn) [cite: 1145-1149].</p>
+Este é o log do primeiro modelo, que diagnosticou o comportamento "médio" de toda a base de clientes (quantas vezes compram e quando sofrem churn).</p>
 <p><img alt="Sumário do Modelo BG/NBD" src="../img/ltv_bg_nbd_summary.png" /></p>
 <p><strong>2. Sumário do Modelo Gamma-Gamma (Valor Monetário)</strong>
 Este log prova a nossa "Descoberta Crítica" do passo anterior. A primeira linha confirma a <strong>Correlação de 0.3882</strong> que viola a premissa. As linhas seguintes mostram o sumário do modelo de valor monetário.</p>
@@ -672,16 +672,16 @@ Este log prova a nossa "Descoberta Crítica" do passo anterior. A primeira linha
 <h3 id="55-resultados-preditivos-top-10-clientes">5.5 Resultados Preditivos (Top 10 Clientes)</h3>
 <p>O cálculo do LTV combinado (BG/NBD + Gamma-Gamma) valida a nossa hipótese de forma inequívoca. A tabela abaixo, mostrando os 10 melhores clientes classificados pelo LTV futuro estimado, prova que o modelo conseguiu encontrar os padrões que inserimos nos dados sintéticos.</p>
 <ul>
-<li><strong>Descoberta:</strong> Todos os 10 clientes com o maior LTV previsto pertencem, sem exceção, à campanha <code>google_gestao_agil</code>[cite: 1028].</li>
+<li><strong>Descoberta:</strong> Todos os 10 clientes com o maior LTV previsto pertencem, sem exceção, à campanha <code>google_gestao_agil</code>.</li>
 <li><strong>Validação:</strong> Isto confirma que a nossa metodologia (os modelos BG/NBD e Gamma-Gamma) funciona. Eles foram capazes de identificar corretamente os clientes de alto valor que nós criámos intencionalmente na simulação.</li>
 </ul>
 <p><img alt="Top 10 Clientes por LTV Estimado" src="../img/ltv_top_10.png" /></p>
 <h3 id="56-conclusao-financeira-agregacao-por-campanha">5.6 Conclusão Financeira (Agregação por Campanha)</h3>
 <p>Finalmente, agregamos o LTV médio por campanha. O resultado abaixo é a conclusão financeira de todo o projeto, quantificando o que o modelo de lead scoring sugeriu.</p>
 <ul>
-<li><strong>Prova Financeira:</strong> O LTV de um cliente da <code>google_gestao_agil</code> é de <strong>$73.60</strong>[cite: 75, 1252].</li>
-<li><strong>ROI Comparativo:</strong> Este valor é <strong>2.3 vezes maior</strong> (ou 130% superior) ao LTV médio das outras campanhas[cite: 75, 1253].</li>
-<li><strong>Recomendação Estratégica:</strong> Esta análise fornece a prova matemática inequívoca para a realocação agressiva do orçamento de marketing para a campanha <code>google_gestao_agil</code> [cite: 89, 1266-1267].</li>
+<li><strong>Prova Financeira:</strong> O LTV de um cliente da <code>google_gestao_agil</code> é de <strong>R$73.60</strong>.</li>
+<li><strong>ROI Comparativo:</strong> Este valor é <strong>2.3 vezes maior</strong> (ou 130% superior) ao LTV médio das outras campanhas.</li>
+<li><strong>Recomendação Estratégica:</strong> Esta análise fornece a prova matemática inequívoca para a realocação agressiva do orçamento de marketing para a campanha <code>google_gestao_agil</code>.</li>
 </ul>
 <p><img alt="Resultado Final: LTV Médio por Campanha" src="../img/ltv_resultado_final.png" /></p>
 
