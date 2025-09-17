@@ -1,5 +1,7 @@
 # Visão Geral do Projeto InsightOS
 
+> **Nota:** Esta é a documentação técnica completa. Para o sumário executivo visual e os dashboards de resultados finais para gestores (construídos em Streamlit), por favor visite o nosso **[Hub Estratégico de Insights (no Notion)](https://www.notion.so/Projeto-InsightOS-Hub-Estrat-gico-de-Resultados-2713b90412c580bea009e48c7d2a8483?source=copy_link)**.
+
 ### 1.1 Introdução
 
 #### Resumo Executivo
