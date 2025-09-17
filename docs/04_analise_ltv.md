@@ -8,14 +8,14 @@ O objetivo desta fase era quantificar financeiramente o valor dos *leads* e prov
 
 ### 5.2 Descoberta Crítica (Violação de Premissa)
 Antes de treinar o modelo Gamma-Gamma, uma verificação de premissas é necessária. O modelo assume que **não há correlação** entre a frequência de compra de um cliente e seu valor monetário médio.
-* **Nossa Análise:** Encontramos uma correlação de **0.3882** (ou 0.39), como será provado na imagem de log abaixo[cite: 1177].
-* **Tradução de Negócio:** Isso significa que "clientes mais leais são também os que gastam mais" — um insight valioso, mas que viola a premissa do modelo [cite: 1184-1185].
-* **Decisão Estratégica:** A decisão pragmática foi prosseguir. Em vez de tratar o LTV como uma previsão contábil exata, nós o interpretamos como um **índice comparativo robusto** para ranquear o valor relativo das campanhas[cite: 1192, 1197].
+* **Nossa Análise:** Encontramos uma correlação de **0.3882** (ou 0.39), como será provado na imagem de log abaixo.
+* **Tradução de Negócio:** Isso significa que "clientes mais leais são também os que gastam mais" — um insight valioso, mas que viola a premissa do modelo.
+* **Decisão Estratégica:** A decisão pragmática foi prosseguir. Em vez de tratar o LTV como uma previsão contábil exata, nós o interpretamos como um **índice comparativo robusto** para ranquear o valor relativo das campanhas.
 
 ### 5.3 Sumários de Performance dos Modelos
 
 **1. Sumário do Modelo BG/NBD (Frequência e Churn)**
-Este é o log do primeiro modelo, que diagnosticou o comportamento "médio" de toda a base de clientes (quantas vezes compram e quando sofrem churn) [cite: 1145-1149].
+Este é o log do primeiro modelo, que diagnosticou o comportamento "médio" de toda a base de clientes (quantas vezes compram e quando sofrem churn).
 
 ![Sumário do Modelo BG/NBD](img/ltv_bg_nbd_summary.png)
 
@@ -33,7 +33,7 @@ O modelo BG/NBD também nos permite visualizar a "saúde" esperada de toda a bas
 ### 5.5 Resultados Preditivos (Top 10 Clientes)
 O cálculo do LTV combinado (BG/NBD + Gamma-Gamma) valida a nossa hipótese de forma inequívoca. A tabela abaixo, mostrando os 10 melhores clientes classificados pelo LTV futuro estimado, prova que o modelo conseguiu encontrar os padrões que inserimos nos dados sintéticos.
 
-* **Descoberta:** Todos os 10 clientes com o maior LTV previsto pertencem, sem exceção, à campanha `google_gestao_agil`[cite: 1028].
+* **Descoberta:** Todos os 10 clientes com o maior LTV previsto pertencem, sem exceção, à campanha `google_gestao_agil`.
 * **Validação:** Isto confirma que a nossa metodologia (os modelos BG/NBD e Gamma-Gamma) funciona. Eles foram capazes de identificar corretamente os clientes de alto valor que nós criámos intencionalmente na simulação.
 
 ![Top 10 Clientes por LTV Estimado](img/ltv_top_10.png)
@@ -41,8 +41,8 @@ O cálculo do LTV combinado (BG/NBD + Gamma-Gamma) valida a nossa hipótese de f
 ### 5.6 Conclusão Financeira (Agregação por Campanha)
 Finalmente, agregamos o LTV médio por campanha. O resultado abaixo é a conclusão financeira de todo o projeto, quantificando o que o modelo de lead scoring sugeriu.
 
-* **Prova Financeira:** O LTV de um cliente da `google_gestao_agil` é de **$73.60**[cite: 75, 1252].
-* **ROI Comparativo:** Este valor é **2.3 vezes maior** (ou 130% superior) ao LTV médio das outras campanhas[cite: 75, 1253].
-* **Recomendação Estratégica:** Esta análise fornece a prova matemática inequívoca para a realocação agressiva do orçamento de marketing para a campanha `google_gestao_agil` [cite: 89, 1266-1267].
+* **Prova Financeira:** O LTV de um cliente da `google_gestao_agil` é de **R$73.60**.
+* **ROI Comparativo:** Este valor é **2.3 vezes maior** (ou 130% superior) ao LTV médio das outras campanhas.
+* **Recomendação Estratégica:** Esta análise fornece a prova matemática inequívoca para a realocação agressiva do orçamento de marketing para a campanha `google_gestao_agil`.
 
 ![Resultado Final: LTV Médio por Campanha](img/ltv_resultado_final.png)

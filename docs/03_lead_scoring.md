@@ -84,6 +84,7 @@ Este gráfico mostra o resultado final do nosso modelo (Regressão Logística v1
 ![Distribuição dos Scores de Leads](img/distribuicao_scores.png)
 
 **3. Insight de Negócio: Qualidade Média por Campanha**
+
 Finalmente, este gráfico conecta o resultado do modelo (o `lead_score`) de volta ao problema de negócio (investimento de marketing).
 * **Descoberta:** A campanha `google_gestao_agil` (score médio de 0.245) atrai leads de qualidade esmagadoramente superior a todas as outras fontes 
 * **Implicação de ROI:** Esta é a principal recomendação para a equipa de Marketing. O gráfico prova que o orçamento deve ser realocado para esta campanha, pois ela gera os leads com maior probabilidade de conversão, otimizando o ROI .

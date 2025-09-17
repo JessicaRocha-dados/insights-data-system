@@ -3,7 +3,7 @@
 ### 2.1 Pipeline de Dados
 O sistema é um pipeline de dados de ponta a ponta que transforma cliques anónimos em inteligência de negócio. O fluxo é o seguinte:
 
-1.  **Coleta (Navegador):** O `tracker.js` no site captura eventos (ex: `page_view`) e dados de atribuição (UTMs)[cite: 1195, 1079].Ele gera um `visitor_id` único e armazena dados de *first/last touch* no `localStorage`.
+1.  **Coleta (Navegador):** O `tracker.js` no site captura eventos (ex: `page_view`) e dados de atribuição (UTMs).Ele gera um `visitor_id` único e armazena dados de *first/last touch* no `localStorage`.
 2.  **Ingestão (API FastAPI):** Os dados são enviados via `POST` para a API (main.py) hospedada no Render.
 3.  **Validação:** A API usa modelos Pydantic para validar rigorosamente se o *payload* do evento corresponde ao schema definido, rejeitando dados malformados.
 4.  **Armazenamento (PostgreSQL):** Dados validados são inseridos de forma segura no banco de dados PostgreSQL (Supabase).
@@ -26,6 +26,7 @@ O sistema é um pipeline de dados de ponta a ponta que transforma cliques anóni
 [cite_start]O diagrama a seguir ilustra o fluxo de dados completo do sistema InsightOS.
 
 **Figura 1 - Diagrama de Fluxo de Dados do Sistema InsightOS**
+
 ![Diagrama de Fluxo de Dados do Sistema InsightOS](img/arquitetura_fluxo.png)
 
- *Fonte: Documentação de Planejamento.docx 
+ 
