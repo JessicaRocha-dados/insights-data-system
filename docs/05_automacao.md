@@ -9,8 +9,8 @@ A etapa final foi operacionalizar o modelo de *Lead Scoring*, transformando-o de
 
 **Desafio de Produção e Solução (Processamento em Lotes):**
 Durante o teste local do script de produção, foi encontrado um erro `414 Request-URI Too Large`.
-* **Causa:** O script tentava buscar os eventos de *todos* os utilizadores (1000) numa única requisição à API, criando uma URL longa demais para o servidor.
-* **Solução:** Foi implementada uma lógica de **processamento em lotes (batch processing)**. O script foi modificado para processar os utilizadores em "fatias" de 100.
+ **Causa:** O script tentava buscar os eventos de *todos* os utilizadores (1000) numa única requisição à API, criando uma URL longa demais para o servidor.
+ **Solução:** Foi implementada uma lógica de **processamento em lotes (batch processing)**. O script foi modificado para processar os utilizadores em "fatias" de 100.
 
 O código-fonte abaixo ilustra esta lógica de produção robusta:
 
