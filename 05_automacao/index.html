@@ -564,8 +564,8 @@
 </ul>
 <p><strong>Desafio de Produção e Solução (Processamento em Lotes):</strong>
 Durante o teste local do script de produção, foi encontrado um erro <code>414 Request-URI Too Large</code>.
-* <strong>Causa:</strong> O script tentava buscar os eventos de <em>todos</em> os utilizadores (1000) numa única requisição à API, criando uma URL longa demais para o servidor.
-* <strong>Solução:</strong> Foi implementada uma lógica de <strong>processamento em lotes (batch processing)</strong>. O script foi modificado para processar os utilizadores em "fatias" de 100.</p>
+ <strong>Causa:</strong> O script tentava buscar os eventos de <em>todos</em> os utilizadores (1000) numa única requisição à API, criando uma URL longa demais para o servidor.
+ <strong>Solução:</strong> Foi implementada uma lógica de <strong>processamento em lotes (batch processing)</strong>. O script foi modificado para processar os utilizadores em "fatias" de 100.</p>
 <p>O código-fonte abaixo ilustra esta lógica de produção robusta:</p>
 <p>```python</p>
 <h1 id="definir-o-tamanho-do-lote">Definir o tamanho do lote</h1>
