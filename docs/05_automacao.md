@@ -92,6 +92,9 @@ A imagem abaixo, do banco de dados Supabase, mostra o resultado final: a coluna 
 
 ![Tabela de utilizadores no Supabase com a coluna lead_score preenchida](img/resultado_supabase.png)
 
+---
 ### Prova de Execução Autónoma (Confiabilidade do Sistema)
 
-Finalmente, para comprovar que o sistema não foi apenas implementado, mas é fiável a longo prazo, o log de eventos do Render abaixo (cron_log_diario.png) mostra o Cron Job a ser executado com sucesso, pontualmente, todos os dias (14, 15 e 16 de Setembro), dias após a implementação original.
+Finalmente, para comprovar que o sistema não foi apenas implementado, mas é fiável a longo prazo, o log de eventos do Render abaixo mostra o Cron Job a ser executado com sucesso, pontualmente, todos os dias (14, 15 e 16 de Setembro), dias após a implementação original.
+
+![Log de execução diária do Cron Job](img/cron_log_diario.png)
