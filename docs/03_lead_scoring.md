@@ -18,6 +18,7 @@ Um `ColumnTransformer` foi usado para aplicar diferentes transformações a dife
 
 **2. Código do Pipeline (Estrutura):**
 A estrutura final do pipeline, que combina pré-processamento e o modelo, é mostrada abaixo.
+
 ```python
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer

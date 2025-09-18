@@ -13,6 +13,7 @@ Durante o teste local do script de produção, foi encontrado um erro `414 Reque
 * **Solução:** Foi implementada uma lógica de **processamento em lotes (batch processing)**. O script foi modificado para processar os utilizadores em "fatias" de 100.
 
 O código-fonte abaixo ilustra esta lógica de produção robusta:
+
 ```python
 # Definir o tamanho do lote
 BATCH_SIZE = 100
@@ -90,3 +91,7 @@ O Cron Job final (executado às 08:18:56 PM no primeiro log) foi executado com s
 A imagem abaixo, do banco de dados Supabase, mostra o resultado final: a coluna `lead_score` corretamente preenchida pelo script automatizado.
 
 ![Tabela de utilizadores no Supabase com a coluna lead_score preenchida](img/resultado_supabase.png)
+
+### Prova de Execução Autónoma (Confiabilidade do Sistema)
+
+Finalmente, para comprovar que o sistema não foi apenas implementado, mas é fiável a longo prazo, o log de eventos do Render abaixo (cron_log_diario.png) mostra o Cron Job a ser executado com sucesso, pontualmente, todos os dias (14, 15 e 16 de Setembro), dias após a implementação original.
