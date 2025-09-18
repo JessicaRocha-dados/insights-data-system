@@ -590,8 +590,8 @@ Um <code>ColumnTransformer</code> foi usado para aplicar diferentes transformaç
 * <strong>Colunas Numéricas (ex: <code>events_project_created</code>):</strong> Aplicado <code>StandardScaler()</code> para padronizar os dados (colocá-los na mesma escala).
 * <strong>Colunas Categóricas (ex: <code>campaign</code>):</strong> Aplicado <code>OneHotEncoder()</code> para transformar texto em colunas numéricas (0/1). O parâmetro <code>handle_unknown='ignore'</code> foi usado para tornar o modelo robusto a novas campanhas que possam surgir no futuro.</p>
 <p><strong>2. Código do Pipeline (Estrutura):</strong>
-A estrutura final do pipeline, que combina pré-processamento e o modelo, é mostrada abaixo.
-```python
+A estrutura final do pipeline, que combina pré-processamento e o modelo, é mostrada abaixo.</p>
+<p>```python
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
