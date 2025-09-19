@@ -1,32 +1,31 @@
-# 2. Arquitetura do Sistema
+># 2.0 Arquitetura do sistema 
 
-### 2.1 Pipeline de Dados
-O sistema é um pipeline de dados de ponta a ponta que transforma cliques anônimos em inteligência de negócio. O fluxo é o seguinte:
+>## 2.1 Pipeline de Dados
 
-1.  **Coleta (Navegador):** O `tracker.js` no site captura eventos (ex: `page_view`) e dados de atribuição (UTMs). Ele gera um `visitor_id` único e armazena dados de *first/last touch* no `localStorage`.
-2.  **Ingestão (API FastAPI):** Os dados são enviados via `POST` para a API (main.py) hospedada no Render.
-3.  **Validação:** A API usa modelos Pydantic para validar rigorosamente se o *payload* do evento corresponde ao schema definido, rejeitando dados malformados.
-4.  **Armazenamento (PostgreSQL):** Dados validados são inseridos de forma segura no banco de dados PostgreSQL (Supabase).
-5.  **Análise e Modelagem (Python/Jupyter):** Scripts Python e notebooks conectam-se ao banco de dados para realizar engenharia de atributos (feature engineering) e treinar os modelos de ML (Lead Scoring e LTV).
-6.  **Automação (Cron Job):** Um script `score_updater.py` é executado diariamente pelo Render. Ele carrega o modelo treinado, busca novos **usuários**, calcula seus scores e atualiza o banco de dados.
-7.  **Visualização (Metabase):** O Metabase, rodando localmente via Docker, conecta-se ao banco de dados (em modo de leitura) para criar dashboards e relatórios.
+O sistema implementa um pipeline de dados completo que transforma cliques anônimos em inteligência de negócios acionável. O fluxo operacional consiste nas seguintes etapas:
+1.  *Coleta (Navegador):* O arquivo tracker.js, configurado no site, captura eventos do usuário (por exemplo, page_view) e dados de atribuição (como UTMs). Ele gera um identificador único (visitor_id) e armazena detalhes sobre interações iniciais e finais (first touch/last touch) no localStorage do navegador.  
+2.  *Ingestão (API FastAPI):* Os dados coletados são enviados por meio de requisições POST para uma API construída em FastAPI (main.py) e hospedada no Render.  
+3.  *Validação:* A API utiliza os modelos do Pydantic para validar rigorosamente o payload dos eventos, garantindo aderência ao esquema definido e rejeitando dados incompletos ou malformados.  
+4.  *Armazenamento (PostgreSQL):* Após validados, os dados são inseridos de forma segura no banco de dados PostgreSQL, gerenciado via Supabase.  
+5.  *Análise e Modelagem (Python/Jupyter):* Scripts em Python e notebooks Jupyter conectam-se ao banco de dados e realizam tarefas de engenharia de atributos (feature engineering) para treinar os modelos de aprendizado de máquina (Lead Scoring e LTV).  
+6.  *Automação (Cron Job):* Um script chamado score_updater.py é executado diariamente no Render. Ele carrega o modelo treinado, verifica novos *usuários*, calcula suas pontuações e atualiza os elementos necessários no banco de dados.  
+7.  *Visualização (Metabase):* O Metabase, rodando localmente por meio de contêiner Docker, conecta-se ao banco de dados (em modo de leitura somente) para gerar dashboards e relatórios interativos.
+---
+>## 2.2 Tecnologias Utilizadas
+A tabela a seguir apresenta as tecnologias-chave do sistema e suas respectivas justificativas:
+| *Categoria*         | *Tecnologia*          | *Justificativa*                                                                 |
+|-----------------------|-------------------------|----------------------------------------------------------------------------------|
+| *Coleta*           | JavaScript (custom)    | Script tracker.js criado para captura de eventos no front-end e atribuição de origem. |
+| *Ingestão (API)*   | Python / FastAPI       | API simultânea usada para validação dos dados (com Pydantic) e inserção segura no banco. |
+| *Armazenamento*    | PostgreSQL (Supabase)  | Banco de dados relacional gerenciado na nuvem, servindo como repositório central dos dados. |
+| *Análise/Modelagem*| Python / Jupyter       | Ferramentas utilizadas para realizar engenharia de atributos e treinar os modelos. |
+| *Automação*        | Cron Job (Render)      | Executa diariamente o script score_updater.py para atualizar pontuações no banco. |
+| *Visualização*     | Metabase (via Docker)  | Ferramenta de BI open-source, utilizada para criar dashboards e análises visuais. |
+---
+>## 2.3 Diagrama do Sistema
 
-### 2.2 Tecnologias Utilizadas
-
-| Categoria | Tecnologia | Justificativa  |
-| :--- | :--- | :--- |
-| **Coleta** | JavaScript (custom) | Script `tracker.js` para captura de eventos de front-end e atribuição. |
-| **Ingestão (API)** | Python / FastAPI | API assíncrona para validação (Pydantic) e persistência de dados. |
-| **Armazenamento** | PostgreSQL (Supabase) | Banco de dados relacional gerenciado na nuvem, servindo como repositório central. |
-| **Análise/Modelagem**| Python / Jupyter | Scripts e Notebooks para engenharia de atributos e treinamento de modelos. |
-| **Automação** | Cron Job (Render) | Executa o script `score_updater.py` diariamente para pontuar novos leads. |
-| **Visualização** | Metabase (via Docker) | Ferramenta de BI open-source rodando localmente para análise visual. |
-
-### 2.3 Diagrama do Sistema
-O diagrama a seguir ilustra o fluxo de dados completo do sistema InsightOS.
-
-**Figura 1 - Diagrama de Fluxo de Dados do Sistema InsightOS**
-
+O diagrama abaixo ilustra o fluxo completo de dados dentro do sistema InsightOS, desde a coleta inicial até a visualização final.
+*Figura 1 - Diagrama de Fluxo de Dados do Sistema InsightOS*
 ![Diagrama de Fluxo de Dados do Sistema InsightOS](img/arquitetura_fluxo.png)
 
  

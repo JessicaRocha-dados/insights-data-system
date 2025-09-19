@@ -1,93 +1,79 @@
-# 4. Modelagem de Lead Scoring
+># 4. Modelagem de Lead Scoring
 
-### 4.1 Estratégia
-O objetivo era prever a variável-alvo `target_converted` (1 para convertido, 0 para não convertido). A estratégia de modelagem foi:
+### *4.1 Estratégia*
+O objetivo deste módulo foi prever a variável-alvo target_converted (1 para usuários convertidos e 0 para não convertidos). A estratégia de modelagem foi dividida nos seguintes passos:
+1. *Engenharia de Atributos:* Transformação dos logs de eventos brutos (user_events) em uma feature_table estática, onde cada linha corresponde a um usuário e cada coluna representa uma característica calculada, como a contagem de eventos do tipo project_created.
+2. *Tratamento de Desequilíbrio:* A análise exploratória de dados (EDA) revelou um desequilíbrio significativo na variável-alvo: apenas 10,1% dos usuários eram classificados como "convertidos". Para lidar com esse desequilíbrio, foi utilizada a configuração class_weight='balanced' no modelo, garantindo maior relevância às observações da classe minoritária e prevenindo que o modelo ignorasse essa classe.
+3. *Experimentação Comparativa:* Dois modelos foram comparados: um baseline simples e interpretável (Regressão Logística) e um modelo mais complexo e robusto (XGBoost). Essa abordagem permitiu avaliar tanto performance quanto facilidade de interpretação.
+4. *Decisão Baseada na Parcimônia:* Como ambos os modelos atingiram 100% de acurácia nos dados sintéticos, foi aplicado o *Princípio da Parcimônia. Assim, optou-se pelo modelo mais simples (Regressão Logística) devido às suas características de maior interpretabilidade, eficiência computacional e menor propensão ao *overfitting.
+---
+### *4.2 Detalhes Técnicos*
+O processo de modelagem foi encapsulado em um Pipeline do Scikit-learn, assegurando consistência na aplicação do pré-processamento durante todas as etapas de treinamento e inferência.
 
-1.  **Engenharia de Atributos:** Transformar os logs de eventos brutos (`user_events`) numa `feature_table` estática, onde cada linha é um utilizador e cada coluna uma característica (ex: contagem de `project_created`).
-2.  **Tratamento de Desequilíbrio:** A EDA revelou que apenas 10.1% dos utilizadores eram "convertidos". A técnica `class_weight='balanced'` foi usada no modelo para dar mais importância à classe minoritária e evitar que o modelo a ignorasse.
-3.  **Experimentação Comparativa:** Treinar um modelo *baseline* simples e interpretável (Regressão Logística) e compará-lo com um modelo complexo e de alta performance (XGBoost) .
-4.  **Decisão Baseada em Parcimônia:** Como ambos os modelos atingiram 100% de performance nos dados sintéticos, o **Princípio da Parcimônia** foi aplicado: a solução mais simples (Regressão Logística) foi escolhida por ser mais interpretável, eficiente e menos propensa a *overfitting*.
+>#### 1. Pipeline de Pré-processamento
+Foi utilizado um ColumnTransformer para aplicar transformações distintas às diferentes categorias de variáveis:
+* *Colunas Numéricas:* Para variáveis como events_project_created, foi aplicada a técnica de padronização com StandardScaler(), ajustando os dados para que fiquem em uma escala comum.  
+* *Colunas Categóricas:* Os atributos categóricos, como campaign, foram convertidos em variáveis numéricas (codificação 0/1) utilizando OneHotEncoder(). O parâmetro handle_unknown='ignore' foi configurado para tornar o modelo robusto a novas categorias (ex.: campanhas inéditas) que possam surgir no futuro.
 
-### 4.2 Detalhes Técnicos
-O processo de modelagem foi encapsulado num `Pipeline` do Scikit-learn, garantindo que o pré-processamento fosse aplicado de forma consistente.
+>#### 2. Estrutura do Pipeline
+Abaixo está o código Python utilizado para estruturar o pipeline final, integrando o pré-processamento com o modelo de classificação.
 
-**1. Pipeline de Pré-processamento:**
-Um `ColumnTransformer` foi usado para aplicar diferentes transformações a diferentes colunas:
-* **Colunas Numéricas (ex: `events_project_created`):** Aplicado `StandardScaler()` para padronizar os dados (colocá-los na mesma escala).
-* **Colunas Categóricas (ex: `campaign`):** Aplicado `OneHotEncoder()` para transformar texto em colunas numéricas (0/1). O parâmetro `handle_unknown='ignore'` foi usado para tornar o modelo robusto a novas campanhas que possam surgir no futuro.
-
-**2. Código do Pipeline (Estrutura):**
-A estrutura final do pipeline, que combina pré-processamento e o modelo, é mostrada abaixo.
-
-```python
+python
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.linear_model import LogisticRegression
-
-# Definir as colunas para cada transformador
+# Definir as colunas para cada tipo de transformação
 numeric_features = ['events_project_created', 'events_subscription_started', ...]
 categorical_features = ['campaign', 'plan', ...]
-
 # Criar o pré-processador
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), numeric_features),
         ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
     ])
-
-# Criar o pipeline final v1 (Regressão Logística)
+# Definir o pipeline final (Regressão Logística)
 lr_pipeline = Pipeline(steps=[
     ('preprocessor', preprocessor),
     ('classifier', LogisticRegression(class_weight='balanced', random_state=42))
 ])
-
-# Treinar o modelo
+# Treinar o modelo com os dados de treino
 lr_pipeline.fit(X_train, y_train)
-
 # Salvar o pipeline inteiro para produção
 import joblib
 joblib.dump(lr_pipeline, 'lead_scoring_pipeline_v1.joblib')
 
-**3. Métricas de Avaliação:**
-A avaliação robusta (teste único e Validação Cruzada) confirmou a performance perfeita do pipeline nos dados simulados:
-* **AUC:** 1.0000 
-* **Precisão:** 1.0000 
-* **Recall (Sensibilidade):** 1.0000 
-* **Desvio Padrão (Validação Cruzada):** 0.0000, indicando estabilidade total.
+---
+>## 4.3 Análise Visual de Resultados e Insights
 
-Essa performance perfeita validou que o pipeline técnico era 100% funcional e capaz de "resolver" o problema "fácil" que os dados sintéticos apresentavam.
+### *3. Métricas de Avaliação*
+A avaliação robusta, realizada por meio de teste único e validação cruzada, confirmou uma performance perfeita do pipeline nos dados simulados. Os principais resultados observados foram:
+* *AUC (Área Sob a Curva ROC):* 1.0000  
+* *Precisão:* 1.0000  
+* *Recall (Sensibilidade):* 1.0000  
+* *Desvio Padrão (Validação Cruzada):* 0.0000 (indicando estabilidade total do modelo durante a validação).  
 
-O log abaixo (do ficheiro `modelo v2.png`) mostra a performance robusta do Modelo v2 (XGBoost), que também alcançou a perfeição:
+Essa performance perfeita validou que o pipeline técnico era 100% funcional e capaz de solucionar o problema "fácil" representado pelos dados sintéticos.
+Além disso, o log do Modelo v2 (baseado em XGBoost) confirmou resultados idênticos, conforme ilustrado na imagem abaixo, extraída do arquivo modelo_v2.png:
 
 ![Métricas de Validação Cruzada do XGBoost](img/xgboost_metrics.png)
 
-A tabela de comparação final abaixo (do ficheiro `Celula 11...png`) resume a 'batalha' dos modelos e prova que ambas as performances foram idênticas, validando a nossa decisão pelo "Princípio da Parcimônia" (escolher o Modelo v1, mais simples):
-
+A tabela de comparação final (extraída do arquivo Celula_11.png) resume os resultados da "batalha" entre os Modelos v1 (Regressão Logística) e v2 (XGBoost). Ambos modelos alcançaram performance idêntica, o que reforçou a aplicação do *Princípio da Parcimônia* e a escolha do Modelo v1 pela sua simplicidade e interpretabilidade:
 ![Tabela de Comparação v1 vs v2](img/comparacao_modelos_v1_v2.png)
 
-### 4.3 Análise Visual de Resultados e Insights
-
-**1. Funil de Conversão (Contexto EDA)**
-O gráfico de funil abaixo, gerado durante a Análise Exploratória de Dados (EDA), foi crucial para contextualizar o problema. Ele identificou o maior ponto de atrito na jornada do cliente:
-* **Ponto Crítico:** A maior quebra ocorre entre as etapas `user_verified` e `project_created`, onde menos da metade (41.5%) dos utilizadores engajados avança.
-* **Implicação:** Esta etapa (`project_created`) é um dos preditores mais fortes para o modelo de scoring.
-
+---
+### *1. Funil de Conversão (Contexto da EDA)*
+Durante a etapa de Análise Exploratória de Dados (EDA), foi gerado um gráfico de funil que contextualizou o problema e identificou o principal ponto de atrito na jornada do cliente. O funil destacou onde ocorre a maior quebra de engajamento entre etapas críticas no fluxo do usuário:
+* *Ponto Crítico:* A maior quebra foi observada entre as etapas user_verified e project_created. Apenas 41,5% dos usuários engajados avançaram nesse ponto da jornada, representando uma redução significativa.  
+* *Implicação:* Essa etapa (project_created) foi identificada como um dos preditores mais relevantes para o modelo de lead scoring.
+O gráfico abaixo, retirado do arquivo funil_conversao.png, ilustra o funil completo de conversão:
 ![Funil de Conversão Completo](img/funil_conversao.png)
-
-**2. Distribuição dos Scores do Modelo**
-Este gráfico mostra o resultado final do nosso modelo (Regressão Logística v1) aplicado a todos os 1.000 utilizadores.
-* **Descoberta:** O resultado é uma distribuição marcadamente bimodal, indicando que o modelo é extremamente decisivo.
-* **Grupo Frio (Score ≈ 0.0):** A grande maioria dos leads (cerca de 90%) foi classificada com confiança como "fria".
-* **Grupo Quente (Score ≈ 1.0):** Um segundo grupo claro (os restantes 10%) foi classificado com confiança como "quente". 
-* **Implicação:** A ausência de scores intermédios (ex: 0.4, 0.5) é uma vitória para o negócio, pois elimina a ambiguidade e permite à equipa de vendas focar-se apenas no grupo "quente".
-
+---
+### *2. Distribuição dos Scores do Modelo*
+Um gráfico foi gerado para visualizar a distribuição dos scores preditivos do Modelo v1 (Regressão Logística) aplicados sobre os 1.000 usuários presentes nos dados. Os principais resultados encontrados foram:
+* *Descoberta:* A distribuição final dos scores foi marcadamente bimodal, indicando que o modelo tem alta capacidade de decisão e segmentação.  
+* *Grupo Frio (Score ≈ 0.0):* Aproximadamente 90% dos leads foram classificados com alta confiança como "frias".  
+* *Grupo Quente (Score ≈ 1.0):* Cerca de 10% dos leads foram classificados com alta confiança como "quentes".  
+* *Implicação:* A ausência de scores intermediários (como 0.4 ou 0.5) elimina ambiguidades e permite que a equipe comercial concentre seus esforços exclusivamente no grupo "quente", otimizando a eficiência operacional.
+O gráfico abaixo, extraído do arquivo distribuicao_scores.png, ilustra essa distribuição dos scores de lead scoring:
 ![Distribuição dos Scores de Leads](img/distribuicao_scores.png)
-
-**3. Insight de Negócio: Qualidade Média por Campanha**
-
-Finalmente, este gráfico conecta o resultado do modelo (o `lead_score`) de volta ao problema de negócio (investimento de marketing).
-* **Descoberta:** A campanha `google_gestao_agil` (score médio de 0.245) atrai leads de qualidade esmagadoramente superior a todas as outras fontes 
-* **Implicação de ROI:** Esta é a principal recomendação para a equipa de Marketing. O gráfico prova que o orçamento deve ser realocado para esta campanha, pois ela gera os leads com maior probabilidade de conversão, otimizando o ROI .
-
-![Qualidade Média dos Leads por Campanha de Marketing](img/qualidade_por_campanha.png)
