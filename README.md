@@ -27,14 +27,14 @@ Para resolver este desafio, foi construído um pipeline de dados de ponta a pont
 
 ### Insight para Marketing: Otimização de ROI de 130%
 
-![Qualidade Média dos Leads por Campanha](./doc/img/qualidade_por_campanha.png)
+![Qualidade Média dos Leads por Campanha](./docs/img/qualidade_por_campanha.png)
 
 ***Descoberta:** A análise de Lifetime Value (LTV) provou que clientes da campanha `google_gestao_agil` geram um retorno financeiro **2.3 vezes maior** que a média das outras campanhas.
 ***Recomendação Estratégica:** Realocar o orçamento de marketing de forma agressiva para esta campanha e outras com perfis semelhantes para maximizar o retorno sobre o investimento.
 
 ### Insight para Produto: Redução de Atrito no Funil
 
-![Funil de Conversão Completo](./doc/img/funil_conversao.png)
+![Funil de Conversão Completo](./docs/img/funil_conversao.png)
 
 ***Descoberta:** A análise do funil revelou que o maior ponto de atrito na jornada do usuário ocorre entre a verificação do e-mail e a criação do primeiro projeto (`user_verified` → `project_created`).
 ***Recomendação Estratégica:** Priorizar a investigação e otimização desta etapa específica do onboarding para impactar significativamente a taxa de conversão geral.
@@ -44,7 +44,7 @@ Para resolver este desafio, foi construído um pipeline de dados de ponta a pont
 
 O sistema foi projetado com uma arquitetura moderna e escalável, integrando coleta de dados, armazenamento, processamento e visualização de ponta a ponta.
 
-![Arquitetura do Fluxo de Dados](./doc/img/arquitetura-fluxo.png)
+![Arquitetura do Fluxo de Dados](./docs/img/arquitetura-fluxo.png)
 
 ### 💻 Stack Tecnológico
 
