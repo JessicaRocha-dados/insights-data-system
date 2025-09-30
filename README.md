@@ -1,4 +1,3 @@
-# Projeto InsightOS: Pipeline de Dados e Lead Scoring End-to-End
 
 # InsightOS: Sistema de Inteligência de Dados para Otimização de Vendas e Marketing
 
