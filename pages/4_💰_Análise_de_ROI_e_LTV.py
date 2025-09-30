@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- CONFIGURAções DA PÁGINA ---
+# --- CONFIGURAÇÕES DA PÁGINA ---
 st.set_page_config(layout="wide", page_title="Análise de ROI & LTV")
 PAGE_COLOR = "#28a745"  # Verde Sucesso
 
@@ -31,7 +31,7 @@ fig = px.bar(
         'Valor do Cliente (LTV)': PAGE_COLOR, 'Custo de Aquisição (CAC)': '#dc3545'}
 )
 fig.update_traces(textposition='outside')
-# --- MUDANÇA ABAIXO ---
+
 fig.update_layout(title_x=0.5, yaxis_title="Valor em Reais (R$)", xaxis_title=None, plot_bgcolor='white',
                   legend_title_text=None, legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
 st.plotly_chart(fig, use_container_width=True)

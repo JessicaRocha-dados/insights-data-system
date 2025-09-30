@@ -12,15 +12,14 @@ O sistema implementa um pipeline de dados completo que transforma cliques anôni
 7.  *Visualização (Metabase):* O Metabase, rodando localmente por meio de contêiner Docker, conecta-se ao banco de dados (em modo de leitura somente) para gerar dashboards e relatórios interativos.
 ---
 >## 2.2 Tecnologias Utilizadas
-A tabela a seguir apresenta as tecnologias-chave do sistema e suas respectivas justificativas:
-| *Categoria*         | *Tecnologia*          | *Justificativa*                                                                 |
-|-----------------------|-------------------------|----------------------------------------------------------------------------------|
-| *Coleta*           | JavaScript (custom)    | Script tracker.js criado para captura de eventos no front-end e atribuição de origem. |
-| *Ingestão (API)*   | Python / FastAPI       | API simultânea usada para validação dos dados (com Pydantic) e inserção segura no banco. |
-| *Armazenamento*    | PostgreSQL (Supabase)  | Banco de dados relacional gerenciado na nuvem, servindo como repositório central dos dados. |
-| *Análise/Modelagem*| Python / Jupyter       | Ferramentas utilizadas para realizar engenharia de atributos e treinar os modelos. |
-| *Automação*        | Cron Job (Render)      | Executa diariamente o script score_updater.py para atualizar pontuações no banco. |
-| *Visualização*     | Metabase (via Docker)  | Ferramenta de BI open-source, utilizada para criar dashboards e análises visuais. |
+| Categoria         | Tecnologia              | Justificativa                                                                            |
+| :---------------- | :---------------------- | :--------------------------------------------------------------------------------------- |
+| Coleta            | JavaScript (custom)     | Script tracker.js criado para captura de eventos no front-end e atribuição de origem.    |
+| Ingestão (API)    | Python / FastAPI        | API simultânea usada para validação dos dados (com Pydantic) e inserção segura no banco. |
+| Armazenamento     | PostgreSQL (Supabase)   | Banco de dados relacional gerenciado na nuvem, servindo como repositório central dos dados. |
+| Análise/Modelagem | Python / Jupyter        | Ferramentas utilizadas para realizar engenharia de atributos e treinar os modelos.       |
+| Automação         | Cron Job (Render)       | Executa diariamente o script score_updater.py para atualizar pontuações no banco.        |
+| Visualização      | Metabase (via Docker)   | Ferramenta de BI open-source, utilizada para criar dashboards e análises visuais.        |
 ---
 >## 2.3 Diagrama do Sistema
 

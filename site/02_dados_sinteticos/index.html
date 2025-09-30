@@ -438,6 +438,36 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3.2 Implementação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simulacao-do-funil-de-conversao-lead-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Simulação do Funil de Conversão (Lead Scoring)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Simulação do Funil de Conversão (Lead Scoring)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logica-de-transicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lógica de Transição
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -556,6 +586,36 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3.2 Implementação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simulacao-do-funil-de-conversao-lead-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Simulação do Funil de Conversão (Lead Scoring)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Simulação do Funil de Conversão (Lead Scoring)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logica-de-transicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lógica de Transição
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -574,47 +634,67 @@
 
 
 
+<blockquote>
 <h1 id="3-geracao-de-dados-sinteticos">3. Geração de Dados Sintéticos</h1>
 <h3 id="31-justificativa">3.1 Justificativa</h3>
-<p>A geração de dados sintéticos foi uma decisão estratégica na fase inicial do projeto. A principal justificativa foi a necessidade de um <strong>ambiente de laboratório controlado</strong>. Em vez de lidar com dados do mundo real, que poderiam ser escassos ou "ruidosos", a simulação nos permitiu:
-1.  <strong>Validar o Pipeline:</strong> Garantir que o pipeline de ponta a ponta (coleta, API, BD, BI) funcionava corretamente.
-2.  <strong>Criar Padrões Fortes:</strong> Injetar intencionalmente padrões e correlações realistas nos dados (ex: <code>google_gestao_agil</code> convertendo mais).
-3.  <strong>Testar Modelos:</strong> Criar um "quebra-cabeças" com uma solução conhecida para validar se nossos modelos de ML e LTV eram capazes de "encontrar" os padrões que criamos.</p>
+<p>A geração de dados sintéticos foi uma decisão estratégica adotada na fase inicial do projeto. A principal razão foi a necessidade de criar um <em>ambiente de laboratório controlado</em>, que permitisse realizar testes rigorosos sem as limitações associadas aos dados do mundo real, como escassez ou excesso de ruídos. Essa abordagem possibilitou:
+1. <em>Validar o Pipeline:</em> Garantir que o pipeline de ponta a ponta (coleta, API, banco de dados e visualização em BI) estava funcionando corretamente.<br />
+2. <em>Criar Padrões Realistas:</em> Injetar intencionalmente padrões e correlações plausíveis nos dados. Por exemplo, simular que a campanha google_gestao_agil apresenta uma maior taxa de conversão.<br />
+3. <em>Testar Modelos:</em> Construir um "quebra-cabeças" com uma solução previamente conhecida, para verificar se os modelos de machine learning (ML) e <em>Lifetime Value (LTV)</em> eram capazes de identificar os padrões incorporados.</p>
+</blockquote>
+<hr />
+<blockquote>
 <h3 id="32-implementacao">3.2 Implementação</h3>
-<p>O processo foi implementado no notebook <code>01_data_simulation.ipynb</code>, utilizando <code>pandas</code> para a criação e manipulação dos DataFrames e <code>faker</code> para gerar dados falsos com aparência real (nomes, emails).</p>
-<p><strong>1. Simulação do Funil de Conversão (Lead Scoring):</strong>
-A estratégia central foi um funil probabilístico. Em vez de eventos aleatórios, a ocorrência de eventos-chave era uma cascata de decisões com probabilidades condicionais.</p>
-<p><strong>Lógica de Transição (Exemplo <code>project_created</code>):</strong>
-* Um <strong>usuário</strong> só poderia criar um projeto se já tivesse verificado o e-mail.
-* A probabilidade de criar um projeto era <strong>condicional</strong> à campanha de origem.
-* Isso foi implementado para simular que certas campanhas atraem <strong>usuários</strong> mais qualificados.</p>
-<p>O código-fonte abaixo ilustra essa lógica:</p>
-<p>```python</p>
-<h1 id="logica-da-simulacao-do-funil">Lógica da simulação do funil</h1>
-<h1 id="a-probabilidade-de-criar-um-projeto-depende-da-campanha">A probabilidade de criar um projeto depende da campanha</h1>
+<p>O processo de geração de dados foi elaborado no notebook 01_data_simulation.ipynb, utilizando as bibliotecas <em>pandas</em> para manipulação de DataFrames e <em>faker</em> para criar dados fictícios, mas com aparência real, como nomes e endereços de e-mail.</p>
+</blockquote>
+<h4 id="1-simulacao-do-funil-de-conversao-lead-scoring">1. Simulação do Funil de Conversão (Lead Scoring)</h4>
+<p>A estratégia central foi a criação de um funil probabilístico, no qual eventos-chave dependiam de uma cascata de decisões baseadas em probabilidades condicionais. Essa abordagem permitiu modelar o comportamento de <em>usuários</em> de forma realista, em vez de utilizar eventos aleatórios.</p>
+<blockquote>
+<h5 id="logica-de-transicao">Lógica de Transição</h5>
+<p>A lógica foi projetada para que a progressão de um <em>usuário</em> no funil fosse dependente de ações anteriores e de fatores contextuais, como a campanha de origem. Por exemplo:
+* Um <em>usuário</em> só poderia criar um projeto após verificar seu e-mail.<br />
+<em> A probabilidade de realizar a ação de criar um projeto era configurada como </em>condicional<em> à campanha de aquisição do </em>usuário<em>.<br />
+</em> Isso permitiu representar o comportamento simulado de campanhas que atraem <em>usuários</em> mais qualificados.
+O trecho de código abaixo ilustra essa lógica:</p>
+</blockquote>
+<p>python</p>
+<h1 id="logica-de-simulacao-do-funil">Lógica de simulação do funil</h1>
+<h1 id="probabilidade-de-criacao-de-projeto-depende-da-campanha-de-aquisicao">Probabilidade de criação de projeto depende da campanha de aquisição</h1>
 <p>prob_create_project = 0.55 if user['acquisition_campaign'] == 'google_gestao_agil' else 0.30</p>
 <h1 id="o-evento-so-ocorre-se-a-condicao-probabilistica-for-satisfeita">O evento só ocorre se a condição probabilística for satisfeita</h1>
 <p>if random.random() &lt; prob_create_project:
-    # Gera o evento 'project_created'
+    # Gera o evento 'project_created' no funil
     events.append(...) </p>
 <pre><code># Lógica aninhada para a próxima etapa do funil (assinatura)
 prob_subscribe = 0.40 if user['acquisition_campaign'] == 'google_gestao_agil' else 0.15
 if random.random() &lt; prob_subscribe:
     events.append(...)
-    # Atualiza o status do usuário no DataFrame original
+    # Atualiza o status do usuário na base de dados
     users_df.loc[users_df['user_id'] == user_id, 'status'] = 'converted'
 </code></pre>
-<h3 id="33-simulacao-de-transacoes-ltv">3.3 Simulação de Transações (LTV):</h3>
-<p>Para a análise de LTV, um segundo script gerou um log de transações. De forma similar, os dados foram intencionalmente enviesados para que clientes da google_gestao_agil tivessem:</p>
-<p>Maior probabilidade de recompra.</p>
-<p>Ciclo de compra mais curto.</p>
-<p>Ticket médio (valor monetário) superior.</p>
-<h3 id="avaliacao-da-qualidade-e-desafios">Avaliação da Qualidade e Desafios:</h3>
-<p>A "qualidade" dos dados foi validada pela capacidade de inseri-los e analisá-los. Durante a inserção, desafios técnicos reais foram superados:</p>
-<p>duplicate key value... "users_pkey": Resolvido limpando as tabelas antes de cada inserção para garantir um ambiente de teste limpo.</p>
-<p>uplicate key value... "users_email_key": Resolvido adicionando uma lógica de verificação para garantir que a biblioteca faker não gerasse e-mails duplicados.</p>
-<p>Out of range float values...: Resolvido convertendo valores np.nan (do pandas) para None (Python nativo), que é compatível com o formato JSON null do banco de dados.</p>
-<p>A validação final foi visual, usando o Metabase (Figura 2) para gerar um gráfico de funil, que confirmou que a lógica probabilística foi capturada e armazenada corretamente.</p>
+<hr />
+<blockquote>
+<h4 id="2-simulacao-de-transacoes-ltv">2. Simulação de Transações (LTV)</h4>
+<p>Para a análise de <em>Lifetime Value (LTV)</em>, foi desenvolvido um segundo script que gerava um log de transações simuladas. Assim como na simulação do funil de conversão, os dados foram enviesados intencionalmente para refletir diferenças entre os clientes de diferentes campanhas. Destaques da configuração:
+* <em>Maior probabilidade de recompra:</em> Clientes provenientes da campanha google_gestao_agil apresentaram maior chance de realizar compras recorrentes.<br />
+<em> </em>Ciclo de compra mais curto:<em> Esses clientes realizaram compras em intervalos menores.<br />
+</em> <em>Ticket médio superior:</em> Os valores monetários por transação foram configurados para serem maiores em comparação às demais campanhas.</p>
+</blockquote>
+<hr />
+<blockquote>
+<h3 id="33-avaliacao-da-qualidade-e-desafios">3.3 Avaliação da Qualidade e Desafios</h3>
+<p>A qualidade dos dados foi validada com base na sua capacidade de serem inseridos corretamente no banco de dados e analisados posteriormente. Durante o processo de inserção, foram enfrentados e resolvidos alguns desafios técnicos:</p>
+</blockquote>
+<ol>
+<li><strong>Duplicate key value... users_pkey:</strong><br />
+   Esse erro ocorreu devido à tentativa de inserir registros duplicados na chave primária da tabela users. A solução foi limpar as tabelas antes de cada rodada de inserção para garantir que o ambiente de teste estivesse limpo e sem dados residuais.</li>
+<li><strong>Duplicate key value... users_email_key:</strong><br />
+   Esse problema ocorreu devido à geração de endereços de e-mail duplicados pela biblioteca <em>faker</em>. A solução foi implementar uma lógica de verificação, garantindo que nenhum e-mail repetido fosse gerado durante o processo de simulação.</li>
+<li><em>Out of range float values...:</em><br />
+   Esse problema foi causado pela incompatibilidade entre valores np.nan (gerados pelo Pandas) e o formato JSON requerido pelo banco de dados, que espera null. A solução envolveu converter os valores np.nan em None (nativo do Python), que é compatível com o formato null do PostgreSQL.</li>
+</ol>
+<p>A <em>validação final</em> dos dados foi realizada de forma visual por meio do Metabase. Um gráfico de funil (Figura 2) foi gerado para verificar se toda a lógica probabilística foi corretamente aplicada e armazenada na base de dados. A análise confirmou que os padrões simulados estavam sendo representados adequadamente.</p>
+<p><img alt="Gráfico de Funil de Conversão validando os dados sintéticos" src="../img/115151.png" /></p>
 
 
 
