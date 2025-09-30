@@ -44,7 +44,7 @@ Para resolver este desafio, foi construído um pipeline de dados de ponta a pont
 
 O sistema foi projetado com uma arquitetura moderna e escalável, integrando coleta de dados, armazenamento, processamento e visualização de ponta a ponta.
 
-![Arquitetura do Fluxo de Dados](./docs/img/arquitetura-fluxo.png)
+![Arquitetura do Fluxo de Dados](./docs/img/arquitetura_fluxo.png)
 
 ### 💻 Stack Tecnológico
 
